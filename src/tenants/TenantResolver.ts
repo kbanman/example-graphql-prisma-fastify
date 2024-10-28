@@ -12,20 +12,13 @@ import {
 import { Context } from '../context'
 import { createId } from '../util/create-id'
 import { Tenant, User } from '../generated/type-graphql/models';
+import { TenantService } from './tenant-service';
 
-const TENANT_ID_PREFIX = 'tnt';
-export type TenantId = `${typeof TENANT_ID_PREFIX}-${string}`;
 
 @InputType()
 export class CreateTenantInput {
   @Field()
   name: string
-
-  @Field()
-  ownerEmail: string
-
-  @Field({ nullable: true })
-  ownerName?: string
 }
 
 @ObjectType()
@@ -44,6 +37,8 @@ export enum SortOrder {
 
 @Resolver(Tenant)
 export class TenantResolver {
+  constructor(private tenantService: TenantService) {}
+
   @Query(() => Tenant, { nullable: true })
   async tenantById(@Ctx() ctx: Context, @Arg('id') id: string) {
     return ctx.prisma.tenant.findUnique({

@@ -16,22 +16,28 @@ model Tenant {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  addressId String?
 
   users               User[]
   posts               Post[]
-
-  @@map("tenants")
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
+  id    String     @id
   tenantId String
   email String  @unique
   name  String?
 
   posts Post[]
   tenant Tenant? @relation(fields: [tenantId], references: [id])
+  password Password?
+}
+
+model Password {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String @unique
+  hash      String
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Post {
@@ -43,7 +49,7 @@ model Post {
   published Boolean  @default(false)
   viewCount Int      @default(0)
   author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+  authorId  String?
   tenant    Tenant?  @relation(fields: [tenantId], references: [id])
   tenantId  String
 }

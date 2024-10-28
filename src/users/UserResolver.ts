@@ -11,32 +11,35 @@ import {
   Field,
 } from 'type-graphql'
 import { Context } from '../context'
-import { CreatePostInput } from '../posts/PostResolver'
 import { Post, User } from '../generated/type-graphql/models'
+import { UserService } from './user-service'
+import { requireAuth } from '../util/require-auth'
 
 @InputType()
 class UserUniqueInput {
   @Field({ nullable: true })
-  id: number
+  id: string
 
   @Field({ nullable: true })
   email: string
 }
 
 @InputType()
-class UserCreateInput {
+export class CreateUserInput {
   @Field()
   email: string
 
   @Field({ nullable: true })
   name: string
 
-  @Field(() => [CreatePostInput], { nullable: true })
-  posts: [CreatePostInput]
+  @Field()
+  password: string
 }
 
 @Resolver(User)
 export class UserResolver {
+  constructor(private userService: UserService) {}
+
   @FieldResolver(() => [Post])
   async posts(@Root() user: User, @Ctx() ctx: Context): Promise<Post[]> {
     return await ctx.prisma.user
@@ -50,22 +53,11 @@ export class UserResolver {
 
   @Mutation(() => User)
   async signupUser(
-    @Arg('data') data: UserCreateInput,
+    @Arg('data') data: CreateUserInput,
     @Ctx() ctx: Context,
   ): Promise<User> {
-    const postData = data.posts?.map((post) => {
-      return { title: post.title, content: post.content || undefined }
-    })
-
-    return ctx.prisma.user.create({
-      data: {
-        email: data.email,
-        name: data.name,
-        posts: {
-          create: postData,
-        },
-      },
-    })
+    const { tenantId } = requireAuth(ctx);
+    return this.userService.create(tenantId, data)
   }
 
   @Query(() => [User])

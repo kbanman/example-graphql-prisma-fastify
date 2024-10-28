@@ -10,15 +10,18 @@
     "@as-integrations/fastify": "^2.1.1",
     "@paralleldrive/cuid2": "^2.2.2",
     "@prisma/client": "5.21.1",
+    "bcrypt": "^5.1.1",
     "class-validator": "0.14.1",
     "fastify": "^4.4.0",
     "graphql": "16.9.0",
     "graphql-scalars": "1.23.0",
     "reflect-metadata": "0.2.2",
+    "supertokens-node": "^20.1.5",
     "type-graphql": "2.0.0-rc.2",
     "typedi": "^0.10.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "20.17.1",
     "@types/ws": "8.5.12",
     "prisma": "5.21.1",
