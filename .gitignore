@@ -1,3 +1,4 @@
 node_modules
 prisma/dev.db
 pnpm-lock.yaml
+src/generated

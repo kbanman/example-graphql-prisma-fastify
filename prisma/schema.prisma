@@ -1,17 +1,37 @@
 generator client {
   provider = "prisma-client-js"
 }
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output   = "../src/generated/type-graphql"
+}
 
 datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
 }
 
+model Tenant {
+  id        String   @id
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  addressId String?
+
+  users               User[]
+  posts               Post[]
+
+  @@map("tenants")
+}
+
 model User {
   id    Int     @id @default(autoincrement())
+  tenantId String
   email String  @unique
   name  String?
+
   posts Post[]
+  tenant Tenant? @relation(fields: [tenantId], references: [id])
 }
 
 model Post {
@@ -24,4 +44,6 @@ model Post {
   viewCount Int      @default(0)
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  Int?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String
 }

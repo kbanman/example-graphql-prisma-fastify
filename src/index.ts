@@ -7,8 +7,8 @@ import { GraphQLScalarType } from 'graphql'
 import { DateTimeResolver } from 'graphql-scalars'
 import { registerEnumType, buildSchema} from 'type-graphql'
 import { Context, createContext } from './context'
-import { PostCreateInput, PostResolver, SortOrder } from './PostResolver'
-import { UserResolver } from './UserResolver'
+import { CreatePostInput, PostResolver, SortOrder } from './posts/PostResolver'
+import { UserResolver } from './users/UserResolver'
 
 
 const app = async () => {
@@ -17,7 +17,7 @@ const app = async () => {
   })
 
   const schema = await buildSchema({
-    resolvers: [PostResolver, UserResolver, PostCreateInput],
+    resolvers: [PostResolver, UserResolver, CreatePostInput],
     scalarsMap: [{ type: GraphQLScalarType, scalar: DateTimeResolver }],
     validate: { forbidUnknownValues: false }
   });

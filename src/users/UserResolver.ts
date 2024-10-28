@@ -7,14 +7,13 @@ import {
   Ctx,
   FieldResolver,
   Root,
-  Int,
   InputType,
   Field,
 } from 'type-graphql'
-import { Post } from './Post'
-import { User } from './User'
-import { Context } from './context'
-import { PostCreateInput } from './PostResolver'
+import { Context } from '../context'
+import { CreatePostInput } from '../posts/PostResolver'
+import { Post, User } from '../generated/type-graphql/models'
+
 @InputType()
 class UserUniqueInput {
   @Field({ nullable: true })
@@ -32,24 +31,24 @@ class UserCreateInput {
   @Field({ nullable: true })
   name: string
 
-  @Field((type) => [PostCreateInput], { nullable: true })
-  posts: [PostCreateInput]
+  @Field(() => [CreatePostInput], { nullable: true })
+  posts: [CreatePostInput]
 }
 
 @Resolver(User)
 export class UserResolver {
-  @FieldResolver()
-  async posts(@Root() user: User, @Ctx() ctx: Context): Promise<Post[] | null> {
-    return ctx.prisma.user
+  @FieldResolver(() => [Post])
+  async posts(@Root() user: User, @Ctx() ctx: Context): Promise<Post[]> {
+    return await ctx.prisma.user
       .findUnique({
         where: {
           id: user.id,
         },
       })
-      .posts()
+      .posts() ?? []
   }
 
-  @Mutation((returns) => User)
+  @Mutation(() => User)
   async signupUser(
     @Arg('data') data: UserCreateInput,
     @Ctx() ctx: Context,
@@ -74,7 +73,7 @@ export class UserResolver {
     return ctx.prisma.user.findMany()
   }
 
-  @Query((returns) => [Post], { nullable: true })
+  @Query(() => [Post], { nullable: true })
   async draftsByUser(
     @Arg('userUniqueInput') userUniqueInput: UserUniqueInput,
     @Ctx() ctx: Context,
