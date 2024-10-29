@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { User } from '../../generated/type-graphql/models';
+import { User } from '../generated/type-graphql/models';
 
 @ObjectType()
 export class CleanUser {
@@ -9,7 +9,7 @@ export class CleanUser {
   email: string;
   @Field()
   tenantId: string;
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   name?: string | null;
 }
 

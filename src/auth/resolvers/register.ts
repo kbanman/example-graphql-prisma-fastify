@@ -1,7 +1,8 @@
-import { InputType, Field, Resolver, Mutation, Arg, Ctx } from 'type-graphql';
+import { InputType, Field, Resolver, Mutation, Arg } from 'type-graphql';
 import { ObjectType } from 'type-graphql';
-import { Tenant, User } from '../../generated/type-graphql/models/index.js';
-import { TenantService } from '../../tenants/tenant-service.js';
+import { Tenant, User } from '../../generated/type-graphql/models';
+import { TenantService } from '../../tenants/tenant-service';
+import { injectable } from 'tsyringe';
 
 @InputType()
 export class RegisterInput {
@@ -27,6 +28,7 @@ class RegisterResult {
   tenant: Tenant;
 }
 
+@injectable()
 @Resolver()
 export class RegisterResolver {
   constructor(private tenantService: TenantService) {}

@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import {
   Resolver,
   Query,
@@ -13,6 +12,7 @@ import {
 } from 'type-graphql'
 import { Context } from '../context'
 import { Post, User } from '../generated/type-graphql/models'
+import { injectable } from 'tsyringe'
 
 @InputType()
 export class CreatePostInput {
@@ -34,6 +34,7 @@ export enum SortOrder {
   desc = 'desc',
 }
 
+@injectable()
 @Resolver(Post)
 export class PostResolver {
   @FieldResolver(() => User)

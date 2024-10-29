@@ -1,9 +1,10 @@
-import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaClient, Prisma } from '../src/generated/prisma'
 
 const prisma = new PrismaClient()
 
 const userData: Prisma.UserCreateInput[] = [
   {
+    id: 'usr-abc123',
     name: 'Alice',
     email: 'alice@prisma.io',
     posts: {
@@ -17,6 +18,7 @@ const userData: Prisma.UserCreateInput[] = [
     },
   },
   {
+    id: 'usr-def456',
     name: 'Nilu',
     email: 'nilu@prisma.io',
     posts: {
@@ -30,6 +32,7 @@ const userData: Prisma.UserCreateInput[] = [
     },
   },
   {
+    id: 'usr-ghi789',
     name: 'Mahmoud',
     email: 'mahmoud@prisma.io',
     posts: {

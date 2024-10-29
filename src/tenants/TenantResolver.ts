@@ -1,18 +1,14 @@
-import 'reflect-metadata'
 import {
   Resolver,
   Query,
-  Mutation,
   Arg,
   Ctx,
-  InputType,
-  Field,
   ObjectType,
+  Field,
+  InputType,
 } from 'type-graphql'
 import { Context } from '../context'
-import { createId } from '../util/create-id'
 import { Tenant, User } from '../generated/type-graphql/models';
-import { TenantService } from './tenant-service';
 
 
 @InputType()
@@ -37,35 +33,10 @@ export enum SortOrder {
 
 @Resolver(Tenant)
 export class TenantResolver {
-  constructor(private tenantService: TenantService) {}
-
   @Query(() => Tenant, { nullable: true })
   async tenantById(@Ctx() ctx: Context, @Arg('id') id: string) {
     return ctx.prisma.tenant.findUnique({
       where: { id },
     })
-  }
-
-  @Mutation(() => Tenant)
-  async createTenant(
-    @Ctx() ctx: Context,
-    @Arg('input') input: CreateTenantInput,
-  ): Promise<CreateTenantResult> {
-    const [owner, tenant] = await ctx.prisma.$transaction([
-      ctx.prisma.user.create({
-        data: {
-          email: input.ownerEmail,
-          name: input.ownerName,
-        },
-      }),
-      ctx.prisma.tenant.create({
-        data: {
-          id: createId(TENANT_ID_PREFIX),
-          name: input.name,
-        }
-      })
-    ]);
-
-    return { owner, tenant }
   }
 }

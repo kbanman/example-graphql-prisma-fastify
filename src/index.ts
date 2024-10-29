@@ -6,9 +6,12 @@ import fastifyApollo, { fastifyApolloDrainPlugin } from '@as-integrations/fastif
 import { GraphQLScalarType } from 'graphql'
 import { DateTimeResolver } from 'graphql-scalars'
 import { registerEnumType, buildSchema} from 'type-graphql'
-import { Context, createContext } from './context'
-import { CreatePostInput, PostResolver, SortOrder } from './posts/PostResolver'
-import { UserResolver } from './users/UserResolver'
+import { Context, createContext } from '@/context'
+import { PostResolver, SortOrder } from '@/posts/PostResolver'
+import { UserResolver } from '@/users/UserResolver'
+import {container} from "tsyringe";
+import { authResolvers } from './auth';
+import authPlugin from '@/auth/supertokens/fastify-plugin';
 
 
 const app = async () => {
@@ -17,9 +20,14 @@ const app = async () => {
   })
 
   const schema = await buildSchema({
-    resolvers: [PostResolver, UserResolver, CreatePostInput],
+    resolvers: [
+      ...authResolvers,
+      PostResolver,
+      UserResolver,
+    ],
     scalarsMap: [{ type: GraphQLScalarType, scalar: DateTimeResolver }],
-    validate: { forbidUnknownValues: false }
+    validate: { forbidUnknownValues: false },
+    container: { get: (cls) => container.resolve(cls) },
   });
 
   const fastify = Fastify();
@@ -31,11 +39,20 @@ const app = async () => {
 
   await apollo.start();
 
+  fastify.register(authPlugin);
   await fastify.register(fastifyApollo(apollo), {
     context: createContext,
   });
 
-  console.log(`🚀 Server ready`);
+  const PORT = 4000;
+
+  try {
+    await fastify.listen({ port: PORT });
+    console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+  } catch (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
 }
 
 app();

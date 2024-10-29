@@ -1,17 +1,20 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../generated/prisma';
 import { TenantId } from '../tenants/tenant-service';
 import { CreateUserInput } from './UserResolver';
 import { User } from '../generated/type-graphql/models';
-import { createId } from '../util/create-id';
+import { createId, parseId } from '../util/create-id';
 import * as bcryptUtil from '../auth/util/bcrypt';
 import { NotFoundError } from '../errors/not-found-error';
 import { PrismaTrx } from '../util/transaction';
+import { inject, singleton } from 'tsyringe';
 
 export const PREFIX = 'usr';
 export type UserId = `${typeof PREFIX}-${string}`;
+export const parseUserId = parseId(PREFIX);
 
+@singleton()
 export class UserService {
-  constructor(private prisma: PrismaClient) { }
+  constructor(@inject('prisma') private prisma: PrismaClient) { }
 
   async create(tenantId: TenantId, input: CreateUserInput, db: PrismaTrx = this.prisma): Promise<User> {
     return db.user.create({
