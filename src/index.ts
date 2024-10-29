@@ -12,6 +12,8 @@ import { UserResolver } from '@/users/UserResolver'
 import {container} from "tsyringe";
 import { authResolvers } from '@/auth';
 import authPlugin from '@/auth/supertokens/fastify-plugin';
+import { ErrorInterceptor } from './errors/error-interceptor';
+import { env } from '@/environment'
 
 
 const app = async () => {
@@ -28,6 +30,7 @@ const app = async () => {
     scalarsMap: [{ type: GraphQLScalarType, scalar: DateTimeResolver }],
     validate: { forbidUnknownValues: false },
     container: { get: (cls) => container.resolve(cls) },
+    globalMiddlewares: [ErrorInterceptor],
   });
 
   const fastify = Fastify();
@@ -44,11 +47,12 @@ const app = async () => {
     context: createContext,
   });
 
-  const PORT = 4000;
+  const port = env.PORT;
+  const host = '0.0.0.0';
 
   try {
-    await fastify.listen({ port: PORT });
-    console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+    await fastify.listen({ port,  host });
+    console.log(`🚀 Server ready at http://${host}:${port}/graphql`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

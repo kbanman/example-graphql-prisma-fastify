@@ -41,6 +41,7 @@ export class BaseError extends Error {
   readonly httpStatusCode: number;
   readonly errorCodename: string;
   readonly originalError?: Error;
+  readonly extensions: { code: string };
   payload?: Readonly<IDefaultPayload> & Record<string, any>;
 
   constructor(args: IBaseErrorConstructorArgs) {
@@ -50,6 +51,9 @@ export class BaseError extends Error {
     this.errorId = createId();
 
     this.errorCodename = args.errorCodename;
+    this.extensions = {
+      code: this.errorCodename,
+    };
     this.httpStatusCode = args.httpStatusCode;
     this.payload = {
       ...args.payload,

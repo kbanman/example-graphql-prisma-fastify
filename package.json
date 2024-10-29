@@ -2,8 +2,9 @@
   "name": "typegraphql-example",
   "scripts": {
     "dev": "ts-node-dev --no-notify --respawn --clear src/index.ts",
-    "codegen": "prisma generate",
-    "migrate": "prisma migrate dev",
+    "start": "ts-node src/index.ts",
+    "codegen": "npx prisma generate",
+    "migrate": "npx prisma migrate dev",
     "build": "tspc",
     "prepare": "npm run codegen && npm run migrate && ts-patch install -s"
   },

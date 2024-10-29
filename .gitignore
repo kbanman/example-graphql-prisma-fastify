@@ -3,3 +3,4 @@ prisma/dev.db*
 pnpm-lock.yaml
 src/generated
 dist
+docker-volumes
