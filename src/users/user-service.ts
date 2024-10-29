@@ -1,4 +1,4 @@
-import { PrismaClient } from '@/generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { TenantId } from '@/tenants/tenant-service';
 import { CreateUserInput } from './UserResolver';
 import { User } from '@/generated/type-graphql/models';
@@ -23,7 +23,7 @@ export class UserService {
     if (existingUser) {
       throw new BadInputError(`User with email ${input.email} already exists`);
     }
-    
+
     return db.user.create({
       data: {
         id: createId(PREFIX),

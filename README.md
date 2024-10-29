@@ -1,5 +1,10 @@
 
+## Setup
 
+1. Populate a `.env` file:
+```shell
+cp .env.example .env
+```
 
 ## Gotchas
 

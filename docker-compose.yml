@@ -8,8 +8,8 @@ services:
     command: npm run dev
     restart: always
     volumes:
-      - ./src:/usr/src/app/src
-      - ./prisma:/usr/src/app/prisma
+      - ./src:/app/src
+      - ./prisma:/app/prisma
       # IMPORTANT: If you are using Windows, you might want to uncomment the entry below.
       # https://jdlm.info/articles/2019/09/06/lessons-building-node-app-docker.html#the-node_modules-volume-trick
       # - ./docker-volumes/node_modules:/usr/src/app/node_modules # https://stackoverflow.com/a/32785014
@@ -25,12 +25,12 @@ services:
       PORT: 8080
       POSTGRES_CONNECTION_URL: 'postgresql://postgres:password@db:5432/db'
       CORS_ORIGIN_URL: 'http://localhost:5173'
-      OPENAI_API_KEY: 
-      AWS_ACCESS_KEY_ID: 
-      AWS_SECRET_ACCESS_KEY: 
-      AWS_REGION: us-west-2
-      AWS_STACK_NAME: 
-      AWS_USER_ASSET_BUCKET: 
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      AWS_STACK_NAME: ${AWS_STACK_NAME}
+      AWS_USER_ASSET_BUCKET: ${AWS_USER_ASSET_BUCKET}
 
   db:
     image: postgres:17-alpine

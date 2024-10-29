@@ -1,5 +1,5 @@
 import { inject, singleton } from 'tsyringe';
-import { PrismaClient } from '@/generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { CreateTenantInput } from './TenantResolver';
 import { Tenant, User } from '@/generated/type-graphql/models';
 import { createId } from '@/util/create-id';
