@@ -1,11 +1,11 @@
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
 import supertokens from 'supertokens-node';
 import Session from 'supertokens-node/recipe/session';
-import { InternalServerError, UnauthenticatedError } from '../../errors';
+import { InternalServerError, UnauthenticatedError } from '@/errors';
 import * as bcryptUtil from '../util/bcrypt';
 import { CleanUser, cleanUser } from '../clean-user';
-import { Tenant } from '../../generated/type-graphql/models';
-import { Context } from '../../context';
+import { Tenant } from '@/generated/type-graphql/models';
+import { Context } from '@/context';
 import { AccessTokenPayload } from '../access-token';
 import { singleton } from 'tsyringe';
 

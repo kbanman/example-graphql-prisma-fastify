@@ -1,11 +1,11 @@
 import { BaseContext } from '@apollo/server'
 import { ApolloFastifyContextFunction } from '@as-integrations/fastify'
-import { PrismaClient } from '@/generated/prisma'
-import { getSession } from './auth/util/get-session'
-import { UserId } from './users/user-service'
-import { TenantId } from './tenants/tenant-service'
-import {container} from "tsyringe";
 import { FastifyReply, FastifyRequest } from 'fastify'
+import {container} from "tsyringe";
+import { PrismaClient } from '@/generated/prisma'
+import { getSession } from '@/auth/util/get-session'
+import { UserId } from '@/users/user-service'
+import { TenantId } from '@/tenants/tenant-service'
 
 const prisma = new PrismaClient()
 

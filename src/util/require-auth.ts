@@ -1,5 +1,5 @@
-import { AuthenticatedContext, Context } from '../context';
-import { UnauthenticatedError } from '../errors/unauthenticated-error';
+import { AuthenticatedContext, Context } from '@/context';
+import { UnauthenticatedError } from '@/errors';
 
 export const requireAuth = (ctx: Context): AuthenticatedContext => {
   // If needed, you can also check whether the user still exists in the database here

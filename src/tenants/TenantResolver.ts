@@ -7,8 +7,8 @@ import {
   Field,
   InputType,
 } from 'type-graphql'
-import { Context } from '../context'
-import { Tenant, User } from '../generated/type-graphql/models';
+import { Context } from '@/context'
+import { Tenant, User } from '@/generated/type-graphql/models';
 
 
 @InputType()

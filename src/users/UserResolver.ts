@@ -9,10 +9,10 @@ import {
   InputType,
   Field,
 } from 'type-graphql'
-import { Context } from '../context'
-import { Post, User } from '../generated/type-graphql/models'
+import { Context } from '@/context'
+import { Post, User } from '@/generated/type-graphql/models'
 import { UserService } from './user-service'
-import { requireAuth } from '../util/require-auth'
+import { requireAuth } from '@/util/require-auth'
 
 @InputType()
 class UserUniqueInput {

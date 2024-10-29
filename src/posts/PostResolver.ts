@@ -10,9 +10,9 @@ import {
   InputType,
   Field,
 } from 'type-graphql'
-import { Context } from '../context'
-import { Post, User } from '../generated/type-graphql/models'
 import { injectable } from 'tsyringe'
+import { Context } from '@/context'
+import { Post, User } from '@/generated/type-graphql/models'
 
 @InputType()
 export class CreatePostInput {

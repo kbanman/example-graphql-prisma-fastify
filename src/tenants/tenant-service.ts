@@ -1,12 +1,12 @@
-import { PrismaClient } from '../generated/prisma';
-import { CreateTenantInput } from './TenantResolver';
-import { Tenant, User } from '../generated/type-graphql/models';
-import { createId } from '../util/create-id';
-import { NotFoundError } from '../errors';
-import { RegisterInput } from '../auth/resolvers/register';
-import { UserService } from '../users/user-service';
-import { PrismaTrx } from '../util/transaction';
 import { inject, singleton } from 'tsyringe';
+import { PrismaClient } from '@/generated/prisma';
+import { CreateTenantInput } from './TenantResolver';
+import { Tenant, User } from '@/generated/type-graphql/models';
+import { createId } from '@/util/create-id';
+import { NotFoundError } from '@/errors';
+import { RegisterInput } from '@/auth/resolvers/register';
+import { UserService } from '@/users/user-service';
+import { PrismaTrx } from '@/util/transaction';
 
 const TENANT_ID_PREFIX = 'tnt';
 export type TenantId = `${typeof TENANT_ID_PREFIX}-${string}`;

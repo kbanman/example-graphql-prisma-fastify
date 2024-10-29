@@ -1,6 +1,6 @@
-import { z } from 'zod';
-import { env } from '../../environment';
 import { RecipeListFunction, TypeInput } from 'supertokens-node/lib/build/types';
+import { z } from 'zod';
+import { env } from '@/environment';
 
 const SupertokensConfig = z.object({
   SUPERTOKENS_CONNECTION_URL: z

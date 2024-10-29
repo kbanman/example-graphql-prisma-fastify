@@ -10,7 +10,7 @@ import { Context, createContext } from '@/context'
 import { PostResolver, SortOrder } from '@/posts/PostResolver'
 import { UserResolver } from '@/users/UserResolver'
 import {container} from "tsyringe";
-import { authResolvers } from './auth';
+import { authResolvers } from '@/auth';
 import authPlugin from '@/auth/supertokens/fastify-plugin';
 
 
